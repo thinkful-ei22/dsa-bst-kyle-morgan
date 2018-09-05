@@ -1,9 +1,11 @@
 'use strict';
 
 const BinarySearchTree = require('./binarySearchTree');
+const BackwardSearchTree = require('./backwardSearchTree');
 
 function main() {
   const BST = new BinarySearchTree();
+  const TSB = new BackwardSearchTree();
   BST.insert(3, 'three');
   BST.insert(1, 'one');
   BST.insert(4, 'four');
@@ -13,9 +15,24 @@ function main() {
   BST.insert(5, 'five');
   BST.insert(7, 'seven');
   BST.insert(8, 'eight');
-  //console.log(BST);
+
+  TSB.insert(3, 'three');
+  TSB.insert(1, 'one');
+  TSB.insert(4, 'four');
+  TSB.insert(6, 'six');
+  TSB.insert(9, 'nine');
+  TSB.insert(2, 'two');
+  TSB.insert(5, 'five');
+  TSB.insert(7, 'seven');
+  TSB.insert(8, 'eight');
+  // console.log(BST);
+  // console.log(TSB);
   // console.log(BST.find(8));
   console.log('height:',height(BST));
+  console.log('height:',height(TSB));
+
+  console.log('isValid (BST): ', isValidBst(BST));
+  console.log('isValid (TSB): ', isValidBst(TSB));
 
 }
 main();
@@ -46,3 +63,35 @@ function height(searchTree){
   return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);
 }
 
+/* ------------------ is it BST? ---------------- */
+// Write an algorithm to check whether an arbitrary binary
+// tree is a binary search tree, assuming the tree does not
+// contain duplicates
+
+// input: valid bst (BST)
+// output: true
+
+// input: invalid bst (TSB)
+// output: false
+
+// recursively traverse entire tree
+// base case -> if node === null -> return true
+// check if left > node || right < node -> return false
+// return isValidBst(node.left) && isValidBst(node.right);
+
+function isValidBst(binaryTree) {
+  // base case
+  if (!binaryTree) {
+    return true;
+  }
+
+  // if not in sorted order
+  if (binaryTree.left && binaryTree.left.key > binaryTree.key) {
+    return false;
+  } else if (binaryTree.right && binaryTree.right.key < binaryTree.key) {
+    return false;
+  }
+
+  // recursively check rest of tree
+  return isValidBst(binaryTree.left) && isValidBst(binaryTree.right);
+}
