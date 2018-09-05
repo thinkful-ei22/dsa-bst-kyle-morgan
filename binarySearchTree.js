@@ -68,11 +68,41 @@ class BinarySearchTree {
   }
 
   _replaceWith(node) {
+    //if node getting replaced has a parent
+    if(this.parent){
+      //if on left or right of parent
+      if(this.parent.left === this){
+        this.parent.left = node;
+      } else if (this.parent.right === this){
+        this.parent.right = node;
+      }
+
+      if(node){
+        node.parent = this.parent;
+      }
+    } else {
+      //root item being replaced
+      if(node){
+        this.key = node.key;
+        this.value = node.value;
+        this.left = node.left;
+        this.right = node.right;
+      } else {
+        this.key = null;
+        this.value = null;
+        this.left = null;
+        this.right = null;
+      }
+    }
 
   }
 
   _findMin() {
-
+    if(this.left){
+      return this.left._findMin();
+    } else {
+      return this;
+    }
   }
 }
 
