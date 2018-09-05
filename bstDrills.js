@@ -8,13 +8,17 @@ function main() {
   const TSB = new BackwardSearchTree();
   BST.insert(3, 'three');
   BST.insert(1, 'one');
-  BST.insert(4, 'four');
-  BST.insert(6, 'six');
-  BST.insert(9, 'nine');
+  // BST.insert(4, 'four');
+  // BST.insert(6, 'six');
+  // BST.insert(9, 'nine');
   BST.insert(2, 'two');
-  BST.insert(5, 'five');
-  BST.insert(7, 'seven');
-  BST.insert(8, 'eight');
+  // BST.insert(5, 'five');
+  // BST.insert(7, 'seven');
+  // BST.insert(8, 'eight');
+  BST.insert(0, 'zero');
+  // BST.insert(3.5, 'three point five');
+  // BST.insert(-1, 'neg One');
+
 
   TSB.insert(3, 'three');
   TSB.insert(1, 'one');
@@ -35,8 +39,10 @@ function main() {
   // console.log('isValid (TSB): ', isValidBst(TSB));
 
   // console.log('max of BST: ', findMax(BST)); // 9
-  console.log('thirdLargest of BST: ', findThirdLargest(BST)); // 7
+  // console.log('thirdLargest of BST: ', findThirdLargest(BST)); // 7
 
+  // console.log(minHeight(BST));
+  console.log(isBalanced(BST));
 }
 main();
 
@@ -65,6 +71,9 @@ function height(searchTree){
 
   return 1 + (leftDepth > rightDepth ? leftDepth : rightDepth);
 }
+
+
+
 
 /* ------------------ is it BST? ---------------- */
 // Write an algorithm to check whether an arbitrary binary
@@ -98,6 +107,8 @@ function isValidBst(binaryTree) {
   // recursively check rest of tree
   return isValidBst(binaryTree.left) && isValidBst(binaryTree.right);
 }
+
+
 
 /* ---------------- Third largest node ----------------- */
 // Write an algorithm to find the third largest node
@@ -156,3 +167,40 @@ function findMax(searchTree) {
     return searchTree;
   }
 }
+
+
+
+/* ---------------- Balanced BST ----------------- */
+/* Write an algorithm that checks if a BST is balanced (i.e. a tree 
+where no two leaves differ in distance from the root by more than one). */
+//assume 'leaf' is a node that doesn't have both left and right
+
+//input: binary search tree (BST)
+//output: true or false   (false because max = 5 or 6, min = 2)
+
+//use height() to get max height, then find min height, 
+//then compare them
+
+//base case if node is null ---> return min=0
+//
+
+function minHeight(searchTree){
+  if(!searchTree){
+    return 0;
+  }
+
+  const leftMin = minHeight(searchTree.left);
+  const rightMin = minHeight(searchTree.right);
+
+  return 1 + (leftMin <= rightMin ? leftMin : rightMin);
+}
+
+function isBalanced(searchTree){
+  const max = height(searchTree);
+  const min = minHeight(searchTree);
+
+  return max - min < 2 ;
+}
+
+
+
