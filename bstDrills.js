@@ -28,11 +28,14 @@ function main() {
   // console.log(BST);
   // console.log(TSB);
   // console.log(BST.find(8));
-  console.log('height:',height(BST));
-  console.log('height:',height(TSB));
+  // console.log('height:',height(BST));
+  // console.log('height:',height(TSB));
 
-  console.log('isValid (BST): ', isValidBst(BST));
-  console.log('isValid (TSB): ', isValidBst(TSB));
+  // console.log('isValid (BST): ', isValidBst(BST));
+  // console.log('isValid (TSB): ', isValidBst(TSB));
+
+  // console.log('max of BST: ', findMax(BST)); // 9
+  console.log('thirdLargest of BST: ', findThirdLargest(BST)); // 7
 
 }
 main();
@@ -94,4 +97,62 @@ function isValidBst(binaryTree) {
 
   // recursively check rest of tree
   return isValidBst(binaryTree.left) && isValidBst(binaryTree.right);
+}
+
+/* ---------------- Third largest node ----------------- */
+// Write an algorithm to find the third largest node
+// in a binary search tree.
+
+// input: BST
+// output: matching node (6)
+
+// start by finding biggest node (this.right -> null)
+// if (biggest.left && biggest.left.right) -> _findMax(biggest.left).parent
+// if (biggest.left && biggest.left.left) -> _findMax(biggest.left.left)
+// if (biggest.left) -> biggest.parent
+
+// if biggest has no children
+// if (biggest.parent) ->
+//    if (biggest.parent.left) -> _findMax(biggest.parent.left)
+//    if (!biggest.parent.left) -> biggest.parent.parent
+// else if (!biggest.parent) -> null
+
+function findThirdLargest(searchTree) {
+  const biggest = findMax(searchTree);
+  let thirdLargest;
+
+  // biggest has no .right by definition, so 
+  // check if it has a left & handle appropriately
+  if (biggest.left) {
+    if (biggest.left.right) {
+      thirdLargest = findMax(biggest.left).parent;
+    } else if (biggest.left.left) {
+      thirdLargest = findMax(biggest.left.left);
+    } else {
+      thirdLargest = biggest.parent;
+    }
+  }
+  // if the biggest has no children,
+  // check if it has a parent
+  else if (biggest.parent) {
+    if (biggest.parent.left) {
+      thirdLargest = findMax(biggest.parent.left);
+    } else {
+      thirdLargest = biggest.parent.parent;
+    }
+  }
+
+  if (thirdLargest) {
+    return thirdLargest.key;
+  } else {
+    return null;
+  }
+}
+
+function findMax(searchTree) {
+  if (searchTree.right) {
+    return findMax(searchTree.right);
+  } else {
+    return searchTree;
+  }
 }
