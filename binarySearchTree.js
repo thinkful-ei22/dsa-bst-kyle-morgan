@@ -106,4 +106,60 @@ class BinarySearchTree {
   }
 }
 
+
 module.exports = BinarySearchTree;
+
+
+
+
+
+
+
+
+
+
+/* ------------------- Morgan practicing algorithms ----------------------- */
+
+//input: sorted array [1, 3, 5, 6, 9]
+//output: binary search tree (height-balanced)  
+/*
+    5
+  3   6
+1  n n 9
+*/
+
+//find middle value (index -> length / 2)
+//insert middle into bst (root)
+//iterate from middle to left (decrement), inserting each value
+//iterate from middle to right (incrementing counter), inserting each value
+
+function treeFromArray(sortedArr){
+  const searchTree = new BinarySearchTree();
+
+  const middleIndex = Math.floor((sortedArr.length - 1)/2); //length 8 -> 3, length 9 -> 4
+  for(let i = middleIndex; i >= 0; i--){
+    searchTree.insert(sortedArr[i], sortedArr[i]);
+  }
+  for(let i = middleIndex + 1; i < sortedArr.length; i++){
+    searchTree.insert(sortedArr[i], sortedArr[i]);
+  }
+
+  return searchTree;
+}
+
+// console.log(treeFromArray([1, 5, 7, 8, 20]));
+
+
+//RECURSIVE SOLUTION
+function treeFromArrayRec(sortedArr, searchTree = new BinarySearchTree() ){
+  if(sortedArr.length === 0){
+    return;
+  }
+  const middleIndex = Math.floor((sortedArr.length - 1)/2);
+  searchTree.insert(sortedArr[middleIndex], sortedArr[middleIndex]);
+  treeFromArrayRec(sortedArr.slice(0, middleIndex).concat(sortedArr.slice(middleIndex + 1, sortedArr.length)), searchTree);
+  return searchTree;
+}
+
+console.log(treeFromArrayRec([1, 5, 7, 8, 20]));
+
